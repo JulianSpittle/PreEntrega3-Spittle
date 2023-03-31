@@ -19,25 +19,26 @@ const moto6 = new Moto ("Benelli", "Street", "600cc", "Negro", "TNT 600i", 46500
 
 let arrayMotos = [moto1, moto2, moto3, moto4, moto5, moto6];
 
-localStorage.setItem("motos", JSON.stringify(arrayMotos)); //guardo en local storage el array de motos
-const arrayMotosLS = JSON.parse(localStorage.getItem("motos"));
 
-let arrayPrecioFinal = arrayMotos.map ((Moto =>{
+
+arrayMotos = arrayMotos.map ((Moto =>{
     return {
         marca: Moto.marca,
         tipo: Moto.tipo,
         motor: Moto.motor,
         color: Moto.color,
         modelo: Moto.modelo,
-        precio: (Moto.precio*1.1),
+        precio: Moto.precio,
+        precioFinal: parseInt(Moto.precio*1.1),
+        imagen: Moto.imagen,
     }
 }))
 
-localStorage.setItem("motosPF", JSON.stringify(arrayPrecioFinal)); //guardo en local storage el array de motos con precio final
-const arrayMotosPF = JSON.parse(localStorage.getItem("motosPF"));
+localStorage.setItem("motos", JSON.stringify(arrayMotos)); //guardo en local storage el array de motos
+const arrayMotosLS = JSON.parse(localStorage.getItem("motos"));
 
 const btnBuscarMotos = document.getElementById("btnBuscarMotos");
-const contenedorMotos1 = document.getElementById("contenedorMotos");
+const contenedorMotos1 = document.getElementById("contenedorMotos1");
 const contenedorMotos2 = document.getElementById("contenedorMotos2");
 
 btnBuscarMotos.addEventListener("click", function() {
@@ -49,9 +50,10 @@ btnBuscarMotos.addEventListener("click", function() {
         return;
     } else if ( presupuesto >= 500000 && presupuesto < 1200000 ){
         alert('Tu presupuesto es suficiente para motos entre 125cc y 300cc, te las mostramos a continuacion');
-        const arrayMotos1 = [moto1,moto2];
+        const arrayMotos1 = arrayMotos.filter(moto => moto.precio >= 500000 && moto.precio < 1200000) ;
+        console.log(arrayMotos1)
         contenedorMotos1.innerHTML = "";
-        arrayMotos1.forEach( (moto,index) => {
+        arrayMotos1.forEach( (moto) => {
             const div = document.createElement("div");
             div.innerHTML = `<p> Marca: ${moto.marca}</p>
                     <p> Tipo: ${moto.tipo}</p>
@@ -59,7 +61,7 @@ btnBuscarMotos.addEventListener("click", function() {
                     <p> Color ${moto.color}</p>
                     <p> Modelo: ${moto.modelo}</p>
                     <p> Precio: ${moto.precio}</p>
-                    <p> Precio Final: ${Math.round(arrayPrecioFinal[index].precio)}</p>
+                    <p> Precio Final: ${Math.round(moto.precioFinal)}</p>
                     <img src= "${"images/" + moto.imagen}">
                     `
             contenedorMotos1.appendChild(div);
@@ -67,9 +69,9 @@ btnBuscarMotos.addEventListener("click", function() {
         return;
     } else if ( presupuesto >= 1200000 && presupuesto < 3000000 ){
         alert('Tu presupuesto es suficiente para motos entre 300cc y 600cc, te las mostramos a continuacion');
-        const arrayMotos1 = [moto3,moto4];
+        const arrayMotos2 = arrayMotos.filter(moto => moto.precio >= 1200000 && moto.precio < 3000000);
         contenedorMotos1.innerHTML = "";
-        arrayMotos1.forEach( (moto,index) => {
+        arrayMotos2.forEach( (moto) => {
             const div = document.createElement("div");
             div.innerHTML = `<p> Marca: ${moto.marca}</p>
                     <p> Tipo: ${moto.tipo}</p>
@@ -77,7 +79,7 @@ btnBuscarMotos.addEventListener("click", function() {
                     <p> Color ${moto.color}</p>
                     <p> Modelo: ${moto.modelo}</p>
                     <p> Precio: ${moto.precio}</p>
-                    <p> Precio Final: ${Math.round(arrayPrecioFinal[index].precio)}</p>
+                    <p> Precio Final: ${Math.round(moto.precioFinal)}</p>
                     <img src= "${"images/" + moto.imagen}">
                     `
             contenedorMotos1.appendChild(div);
@@ -86,9 +88,9 @@ btnBuscarMotos.addEventListener("click", function() {
 
     } else if ( presupuesto >= 3000000) {
         alert('Tu presupuesto es suficiente para comprar cualquier moto hasta 1200cc, te las mostramos a continuacion');
-        const arrayMotos1 = [moto5,moto6];
+        const arrayMotos3 = arrayMotos.filter(moto => moto.precio >= 3000000);
         contenedorMotos1.innerHTML = "";
-        arrayMotos1.forEach( (moto,index) => {
+        arrayMotos3.forEach( (moto) => {
             const div = document.createElement("div");
             div.innerHTML = `<p> Marca: ${moto.marca}</p>
                     <p> Tipo: ${moto.tipo}</p>
@@ -96,7 +98,7 @@ btnBuscarMotos.addEventListener("click", function() {
                     <p> Color ${moto.color}</p>
                     <p> Modelo: ${moto.modelo}</p>
                     <p> Precio: ${moto.precio}</p>
-                    <p> Precio Final: ${Math.round(arrayPrecioFinal[index].precio)}</p>
+                    <p> Precio Final: ${Math.round(moto.precioFinal)}</p>
                     <img src= "${"images/" + moto.imagen}">
                     `
             contenedorMotos1.appendChild(div);
